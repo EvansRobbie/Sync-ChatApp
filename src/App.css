@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+  body{
+    @apply bg-slate-950 text-gray-500
+  }
+  .transitions{
+    @apply duration-500 ease-in transition-colors
+  }
+  .absolutePosition {
+    @apply absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 z-10 opacity-100 rounded-2xl
+  }
+}
