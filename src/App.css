@@ -12,4 +12,18 @@
   .absolutePosition {
     @apply absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 z-10 opacity-100 rounded-2xl
   }
+  ::-webkit-scrollbar {
+    /* height: 0;
+    width: 10px; */
+    @apply w-1 
+  }
+  ::-webkit-scrollbar-track {
+    /* background-color: #f1f1f1; */
+    @apply bg-slate-300
+    
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-900 rounded-xl hover:bg-slate-900/60 h-3
+  
+  }
 }

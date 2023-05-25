@@ -1,4 +1,7 @@
+import Chatbar from '../components/Chatbar'
 import Chats from '../components/Chats'
+import Input from '../components/Input'
+import Message from '../components/Message'
 import Navbar from '../components/Navbar'
 import SearchBar from '../components/SearchBar'
 const Home = () => {
@@ -34,9 +37,20 @@ const Home = () => {
                 <Chats/>
             </div>
         </div>
-        <div className=' flex-[2] '>
+        <div className=' relative flex-[2] '>
             {/* chat area */}
-           Chat
+           <Chatbar/>
+           <div className='max-h-[60vh] overflow-y-auto '>
+            <Message/>
+            <Message/>
+            <Message/>
+            <Message/>
+            <Message/>
+            <Message/>
+            <Message/>
+            <Message/>
+           </div>
+           <Input/>
         </div>
     </div>
   )
