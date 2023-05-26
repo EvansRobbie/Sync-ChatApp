@@ -1,7 +1,27 @@
-import { Link } from "react-router-dom"
-
+import {useState} from 'react'
+import { Link, useNavigate } from "react-router-dom"
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Auth } from '../firebase';
+// import { useAuthContext } from '../context/AuthContext';
 
 const Login = () => {
+  // const {} = useAuthContext()
+  const navigate = useNavigate()
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [err, setErr] =useState<boolean>(false)
+
+  const onSubmit = async (e:React.FormEvent<HTMLFormElement>) =>{
+      e.preventDefault()
+      try{
+        await signInWithEmailAndPassword(Auth, email, password)
+         navigate('/')
+      }
+        catch(error) {
+         setErr(true)
+        };
+
+  }
   return (
     <div className="absolutePosition group flex flex-col items-center  w-[70vw] md:w-[25vw] bg-slate-100 min-h-[70vh] ">
         <h2 className="py-4 mt-4 text-2xl font-bold">Sync Chat</h2>
@@ -12,11 +32,11 @@ const Login = () => {
 
         </div>
         <h3 className="text-xl font-semibold pt-2 md:pt-4">Login</h3>
-        <form action="" className="flex flex-col w-full px-4 mt-1 md:mt-3 py-3 gap-1">
+        <form onSubmit={onSubmit} className="flex flex-col w-full px-4 mt-1 md:mt-3 py-3 gap-1">
             <label className="font-semibold" htmlFor="email">Email</label>
-            <input className=" outline-none py-1 px-4 rounded-md" type="email" id='email' placeholder='Enter Your Email' />
+            <input className=" outline-none py-1 px-4 rounded-md" value={email} onChange={e=>setEmail(e.target.value)} type="email" id='email' placeholder='Enter Your Email' />
             <label className="font-semibold" htmlFor="password">Password</label>
-            <input className=" outline-none py-1 px-4 rounded-md" type="password" placeholder="password" />
+            <input className=" outline-none py-1 px-4 rounded-md" value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder="password" />
             <button className="bg-purple-950 mt-4 py-1.5 rounded-xl hover: text-slate-200 font-medium text-sm uppercase active:scale-105 hover:shadow-md shadow-slate-950">Login</button>
         </form>
         <p className="text-gray-500 text-sm mt-1 p-1">Don't have an Account? <Link className="text-purple-500 hover:underline font-bold underline-offset-2" to='/register'>Register</Link></p>

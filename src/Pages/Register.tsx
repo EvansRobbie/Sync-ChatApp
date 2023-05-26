@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore"; 
 import { Auth, storage, db } from '../firebase';
-import { useAuthContext } from '../context/AuthContext';
+// import { useAuthContext } from '../context/AuthContext';
 const Register = () => {
     // const {currentUser, setCurrentUser} = useAuthContext()
     const navigate = useNavigate()
@@ -51,8 +51,8 @@ const Register = () => {
                         email,
                         photoURL:downloadURL
                       });
-                      await setDoc(doc(db, 'charts', response.user.uid), {} )
-                      navigate('/')
+                      await setDoc(doc(db, 'userCharts', response.user.uid), {} )
+                      navigate('/login')
                     });
 
                 }
