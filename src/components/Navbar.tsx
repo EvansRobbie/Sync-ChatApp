@@ -1,7 +1,4 @@
 import { useAuthContext } from "../context/AuthContext"
-interface currentUserProp{
-  photoURL: string | null | undefined 
-}
 const Navbar = () => {
   const {logOut, currentUser} = useAuthContext()
   const photoURL = currentUser?.photoURL || ''
@@ -9,7 +6,7 @@ const Navbar = () => {
     <div className='flex justify-between items-center px-4 h-16  bg-slate-500'>
     {/* <h4 className='text-slate-100 font-medium'>SyncChat</h4> */}
     {currentUser &&
-        <img className='w-10 h-10 rounded-full object-cover' src={photoURL} alt="/" />
+        <img className='w-11 h-11 drop-shadow-xl  rounded-full object-cover' src={photoURL} alt="/" />
     }
     <div onClick={logOut} className='text-slate-100 flex gap-1 cursor-pointer'>
         <span>Logout</span>

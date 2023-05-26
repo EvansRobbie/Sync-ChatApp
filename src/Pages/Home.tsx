@@ -15,26 +15,7 @@ const Home = () => {
 
             </div>
             <div className=' overflow-auto h-full'>
-            <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
-                <Chats/>
+                    <Chats/>
             </div>
         </div>
         <div className=' relative flex-[2] '>

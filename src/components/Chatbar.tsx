@@ -1,11 +1,13 @@
+import { useChatContext } from "../context/ChatContext"
 
 const Chatbar = () => {
+    const {state} = useChatContext()
   return (
     <div className='flex justify-between items-center px-4 h-16  bg-blue-500'>
     {/* <h4 className='text-slate-100 font-medium'>SyncChat</h4> */}
     <div className="flex items-center gap-2">
-        <img className='w-10 h-10 rounded-full object-cover' src="https://cdn.pixabay.com/photo/2021/06/25/13/22/girl-6363743_640.jpg" alt="/" />
-        <h4 className="text-slate-200 text-sm">Jane Doe</h4>
+        <img className='w-10 h-10 rounded-full object-cover' src={state.user?.photoURL} alt="/" />
+        <h4 className="text-slate-200 text-sm">{state.user?.displayName}</h4>
     </div>
     <div className='text-slate-100 flex gap-4 cursor-pointer'>
         <div>
