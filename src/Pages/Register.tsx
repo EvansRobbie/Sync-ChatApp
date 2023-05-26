@@ -1,15 +1,74 @@
-import { FormEvent, useState } from 'react'
-import {Link} from 'react-router-dom'
+import { ChangeEvent, FormEvent, useState } from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore"; 
+import { Auth, storage, db } from '../firebase';
+import { useAuthContext } from '../context/AuthContext';
 const Register = () => {
+    // const {currentUser, setCurrentUser} = useAuthContext()
+    const navigate = useNavigate()
+    const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
-    const [file, setFile] = useState('')
+    const [file, setFile] = useState<FileList | null>(null)
     const [password, setPassword] = useState('')
+    const [err, setErr] = useState(false)
 
-    const onSubmit = (e:FormEvent<HTMLFormElement>)=>{
-        e.preventDefault()
-
+    const handleFile = (e:ChangeEvent<HTMLInputElement>) =>{
+        const file = e.target.files
+        setFile(file)
     }
-    
+
+    const onSubmit = async (e:FormEvent<HTMLFormElement>)=>{
+        e.preventDefault()
+        try{
+            const response  = await createUserWithEmailAndPassword(Auth, email, password)  
+            const storageRef = ref(storage, username);
+            if ( file !== null && file?.length > 0){
+                // const fileBlob = new Blob([file[0]]);
+                const uploadTask = uploadBytesResumable(storageRef, file[0]);
+                uploadTask.on( 
+                    "state_changed",
+                    () => {
+                      // Handle upload progress or state changes if needed
+                      // You can access the snapshot for progress, state, etc.
+                    },
+                (error) => {
+                    // Handle unsuccessful uploads
+                    console.log(error)   
+                    setErr(true)
+                }, 
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then( async (downloadURL) => {
+                    // console.log('File available at', downloadURL);
+                    await updateProfile(response.user, {
+                        displayName:username,
+                        photoURL:downloadURL
+                    })
+                    await setDoc(doc(db, "users", response.user.uid), {
+                        uid:response.user.uid,
+                        displayName:username,
+                        email,
+                        photoURL:downloadURL
+                      });
+                      await setDoc(doc(db, 'charts', response.user.uid), {} )
+                      navigate('/')
+                    });
+
+                }
+                );
+            }
+
+        }
+        catch(error){
+            // const errorCode = error.code;
+            setErr(true)
+            
+        }
+    }
+    // const {FileList} = file
+    // console.log(file)
+    // console.log(currentUser)
   return (
     <div className="absolutePosition group  flex flex-col items-center w-[70vw] md:w-[25vw]  bg-slate-200 min-h-[70vh]">
         <h2 className="py-2 md:py-4 mt-4 text-2xl font-bold">Sync Chat</h2>
@@ -21,6 +80,8 @@ const Register = () => {
         </div>
         <h3 className="text-xl font-semibold pt-2 md:pt-4">Register</h3>
         <form onSubmit={onSubmit} className="flex flex-col w-full px-4 mt-2 py-2 gap-1">
+        <label className="font-semibold" htmlFor="name">Username</label>
+            <input className=" outline-none py-1 px-4 rounded-md" type="text" value={username} onChange={(e)=>setUsername(e.target.value)} id='name' placeholder='Enter Your Email' />
             <label className="font-semibold" htmlFor="email">Email</label>
             <input className=" outline-none py-1 px-4 rounded-md" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} id='email' placeholder='Enter Your Email' />
             <div className='py-1'>
@@ -32,7 +93,7 @@ const Register = () => {
                     </svg>
                     <span className='font-medium'>Profile Pic [Optional]</span>
                 </label>
-                <input className='hidden' value={file} onChange={(e)=>setFile(e.target.value)} type="file" id='file' />
+                <input className='hidden'  onChange={handleFile} type="file" id='file' />
 
             </div>
             <label className="font-semibold" htmlFor="password">Password</label>
