@@ -95,7 +95,7 @@ const Register = () => {
                     <path d="M3 8.625c0-1.036.84-1.875 1.875-1.875h.375A3.75 3.75 0 019 10.5v1.875c0 1.036.84 1.875 1.875 1.875h1.875A3.75 3.75 0 0116.5 18v2.625c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625v-12z" />
                     <path d="M10.5 10.5a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963 5.23 5.23 0 00-3.434-1.279h-1.875a.375.375 0 01-.375-.375V10.5z" />
                     </svg>
-                    <span className='font-medium'>Profile Pic [Optional]</span>
+                    <span className='font-medium'>Profile Pic</span>
                 </label>
                 <input required className='hidden'  onChange={handleFile} type="file" id='file' />
 
@@ -104,7 +104,7 @@ const Register = () => {
             <input required className=" outline-none py-1 px-4 rounded-md" value={password} onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="password" />
             <button className="bg-purple-950 mt-4 py-1.5 rounded-xl hover: text-slate-200 font-medium text-sm uppercase active:scale-105 hover:shadow-md shadow-slate-950">Register</button>
         </form>
-        <p className="text-gray-500 text-sm my-1 ">Already have an Account? <Link className="text-purple-500 hover:underline font-bold underline-offset-2" to='/register'>Login</Link></p>
+        <p className="text-gray-500 text-sm my-1 py-2 ">Already have an Account? <Link className="text-purple-500 hover:underline font-bold underline-offset-2" to='/login'>Login</Link></p>
     </div>
   )
 }
