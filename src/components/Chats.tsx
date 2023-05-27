@@ -28,21 +28,26 @@ const Chats = () => {
   return (
     <>
     {/* use Object.entries() to convert the object to an array */}
-    {Object.entries(chats).map((chat) =>{
-      const username = chat[1].userInfo.displayName
-       const splitName = username.split(' ')
-       const firstName = splitName[0]
+    {Object.entries(chats)?.sort((a,b) =>b[1]?.date - a[1]?.date).map((chat) =>{
+      const username = chat[1].userInfo?.displayName
+       const splitName = username?.split(' ')
+       let firstName
+       if (splitName?.length >= 2){
+         firstName = splitName[0]
+       }else{
+          firstName = username
+       }
       //  console.log(firstName)
       return(
 
         <div key={chat[0]} onClick={()=>handleClick(chat[1].userInfo)} className="flex gap-2 items-center hover:bg-slate-200 px-4 py-1.5 border-b  border-slate-500/30 hover:border-none ">
-          <img className="w-11 h-11 drop-shadow-xl rounded-full" src={chat[1].userInfo.photoURL} alt="/" />
+          <img className="w-11 h-11 drop-shadow-xl rounded-full" src={chat[1].userInfo?.photoURL} alt="/" />
           <div className="w-full">
               <h2 className="text-base font-medium">{firstName}</h2>
-              <p className="text-sm">{chat[1].userInfo.lastMessage?.text}</p>
+              <p className="text-sm truncate">{chat[1].lastMessage?.text}</p>
 
           </div>
-          <p className="flex justify-end w-full text-xs">16:07</p>
+          <p className="md:flex justify-end w-full text-xs hidden ">16:07</p>
       </div>
       )
     })}

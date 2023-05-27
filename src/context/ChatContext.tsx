@@ -10,7 +10,7 @@ interface userProp{
         uid: string;
         photoURL:string
         displayName:string
-      };
+      } | null;
 }
 type ActionType = {
     type: string;
@@ -37,7 +37,7 @@ type ActionType = {
                 return{
                     ...state,
                     user:action.payload,
-                    chatId:  uid > action.payload.uid ? uid + action.payload.uid : action.payload.uid + state.user?.uid
+                    chatId: uid && uid > action.payload.uid ? uid + action.payload.uid : action.payload.uid + state.user?.uid
                 }
                 
         

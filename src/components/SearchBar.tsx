@@ -80,7 +80,7 @@ const SearchBar = () => {
             <img className="w-10 h-10 rounded-full" src={user?.photoURL} alt="/" />
             <div className="w-full">
                 <h2 className="text-base font-medium">{user?.displayName}</h2>
-                <p className="text-sm">Last Text</p>
+                {/* <p className="text-sm">{user?.lastMessage}</p> */}
 
             </div>
             <p className="flex justify-end w-full text-xs">16:07</p>
