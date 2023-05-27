@@ -44,7 +44,7 @@ const Chats = () => {
           <img className="w-11 h-11 drop-shadow-xl rounded-full" src={chat[1].userInfo?.photoURL} alt="/" />
           <div className="w-full">
               <h2 className="text-base font-medium">{firstName}</h2>
-              <p className="text-sm truncate">{chat[1].lastMessage?.text}</p>
+              <p className="text-sm truncate max-w-sm">{chat[1].lastMessage?.text}</p>
 
           </div>
           <p className="md:flex justify-end w-full text-xs hidden ">16:07</p>

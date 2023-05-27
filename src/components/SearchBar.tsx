@@ -2,11 +2,12 @@ import {useState} from 'react'
 import { DocumentData, collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from '../firebase';
 import { useAuthContext } from '../context/AuthContext';
+import { toast } from 'react-hot-toast/headless';
 const SearchBar = () => {
   const {currentUser} = useAuthContext()
   const [username, setUsername] = useState('')
   const [user, setUser] = useState<null | DocumentData>(null)
-  const [err, setErr] = useState(false)
+  // const [err, setErr] = useState(false)
   const handleSearch = async () =>{
     // console.log('working')
     const usersRef = collection(db, "users");
@@ -21,7 +22,8 @@ const SearchBar = () => {
 
     }
     catch(e){
-      setErr(true)
+      // setErr(true)
+      toast.error('Error on searching data')
       console.log(e)
     }
     // setUsername('')
@@ -65,7 +67,8 @@ const SearchBar = () => {
 
     }
     catch(e){
-      setErr(true)
+      // setErr(true)
+      toast.error('User not found!')
     }
     setUser(null)
     setUsername('')
@@ -74,7 +77,7 @@ const SearchBar = () => {
   return (
     <div className="w-full px-2 py-1 border-b flex flex-col gap-2  border-slate-500/30">
         <input type="text" value={username} onKeyDown={handleKey} onChange={(e)=>setUsername(e.target.value)} className="w-full py-1 rounded-md px-4 text-sm outline-none bg-slate-200" placeholder="Find Chat" />
-        {err && <span>User not found!</span>}
+        {/* {err && <span>User not found!</span>} */}
         {user &&
         <div onClick={handleClick} className="flex gap-2 items-center hover:bg-slate-200 px-4 py-1.5 ">
             <img className="w-10 h-10 rounded-full" src={user?.photoURL} alt="/" />

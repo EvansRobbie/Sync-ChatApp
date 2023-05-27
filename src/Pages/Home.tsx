@@ -21,7 +21,7 @@ const Home = () => {
         <div className=' relative  md:flex-[2] '>
             {/* chat area */}
            <Chatbar/>
-           <div className='max-h-[56vh]  overflow-y-auto '>
+           <div className='max-h-[63vh] md:max-h-[65vh] lg:max-h-[60vh]  overflow-y-auto '>
             <Message/>
            </div>
            <Input/>

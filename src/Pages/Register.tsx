@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore"; 
 import { Auth, storage, db } from '../firebase';
+import { toast } from 'react-hot-toast/headless';
 // import { useAuthContext } from '../context/AuthContext';
 const Register = () => {
     // const {currentUser, setCurrentUser} = useAuthContext()
@@ -12,7 +13,7 @@ const Register = () => {
     const [email, setEmail] = useState('')
     const [file, setFile] = useState<FileList | null>(null)
     const [password, setPassword] = useState('')
-    const [err, setErr] = useState(false)
+    // const [err, setErr] = useState(false)
 
     const handleFile = (e:ChangeEvent<HTMLInputElement>) =>{
         const file = e.target.files
@@ -35,8 +36,9 @@ const Register = () => {
                     },
                 (error) => {
                     // Handle unsuccessful uploads
-                    console.log(error)   
-                    setErr(true)
+                    console.log(error)  
+                toast.error('Error on uploading image') 
+                    // setErr(true)
                 }, 
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then( async (downloadURL) => {
@@ -53,6 +55,7 @@ const Register = () => {
                       });
                       await setDoc(doc(db, 'userCharts', response.user.uid), {} )
                       navigate('/login')
+                      toast.success('Account Registered. Please Login!')
                     });
 
                 }
@@ -62,7 +65,8 @@ const Register = () => {
         }
         catch(error){
             // const errorCode = error.code;
-            setErr(true)
+            // setErr(true)
+            toast.error(`Account Registration Failed!`)
             
         }
     }
@@ -81,9 +85,9 @@ const Register = () => {
         <h3 className="text-xl font-semibold pt-2 md:pt-4">Register</h3>
         <form onSubmit={onSubmit} className="flex flex-col w-full px-4 mt-2 py-2 gap-1">
         <label className="font-semibold" htmlFor="name">Username</label>
-            <input className=" outline-none py-1 px-4 rounded-md" type="text" value={username} onChange={(e)=>setUsername(e.target.value)} id='name' placeholder='Enter Your Email' />
+            <input required className=" outline-none py-1 px-4 rounded-md" type="text" value={username} onChange={(e)=>setUsername(e.target.value)} id='name' placeholder='Enter Your Email' />
             <label className="font-semibold" htmlFor="email">Email</label>
-            <input className=" outline-none py-1 px-4 rounded-md" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} id='email' placeholder='Enter Your Email' />
+            <input required className=" outline-none py-1 px-4 rounded-md" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} id='email' placeholder='Enter Your Email' />
             <div className='py-1'>
                 <label htmlFor="file" className='flex gap-2 cursor-pointer'>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -93,11 +97,11 @@ const Register = () => {
                     </svg>
                     <span className='font-medium'>Profile Pic [Optional]</span>
                 </label>
-                <input className='hidden'  onChange={handleFile} type="file" id='file' />
+                <input required className='hidden'  onChange={handleFile} type="file" id='file' />
 
             </div>
             <label className="font-semibold" htmlFor="password">Password</label>
-            <input className=" outline-none py-1 px-4 rounded-md" value={password} onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="password" />
+            <input required className=" outline-none py-1 px-4 rounded-md" value={password} onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="password" />
             <button className="bg-purple-950 mt-4 py-1.5 rounded-xl hover: text-slate-200 font-medium text-sm uppercase active:scale-105 hover:shadow-md shadow-slate-950">Register</button>
         </form>
         <p className="text-gray-500 text-sm my-1 ">Already have an Account? <Link className="text-purple-500 hover:underline font-bold underline-offset-2" to='/register'>Login</Link></p>
