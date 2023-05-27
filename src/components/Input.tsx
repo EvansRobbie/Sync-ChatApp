@@ -5,12 +5,13 @@ import { Timestamp, arrayUnion, collection, doc, serverTimestamp, updateDoc } fr
 import { db, storage } from '../firebase';
 import { v4 as uuid } from 'uuid';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { toast } from 'react-hot-toast/headless';
 const Input = () => {
   const {currentUser} = useAuthContext()
   const {state} = useChatContext()
   const [text, setText] = useState('')
   const [image, setImage] = useState<FileList | null>(null)
-  const [err, setErr] = useState(false)
+  // const [err, setErr] = useState(false)
   const handleSubmit = async () =>{
       if(image){
         const storageRef = ref(storage, uuid());
@@ -26,7 +27,8 @@ const Input = () => {
           (error) => {
               // Handle unsuccessful uploads
               console.log(error)   
-              setErr(true)
+              toast.error('Error on sending Image')
+              // setErr(true)
           }, 
           () => {
               getDownloadURL(uploadTask.snapshot.ref).then( async (downloadURL) => {
